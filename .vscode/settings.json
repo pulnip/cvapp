@@ -1,4 +1,13 @@
 {
+    "files.exclude": {
+        ".dart_tool": true,
+        ".idea": true,
+        "**/.DS_Store": true,
+        "android": true,
+        "build": true,
+        "cvapp.iml": true,
+        "pubspec.lock": true,
+    },
     "files.associations": {
         "iostream": "cpp"
     }
