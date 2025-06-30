@@ -3,7 +3,7 @@
         {
             "name": "macOS",
             "includePath": [
-                "${workspaceFolder}/android/app/src/main/cpp/opencv/sdk/native/jni/include",
+                "${workspaceFolder}/src/opencv/sdk/native/jni/include",
                 "${env:ANDROID_NDK_INCLUDE_DIR}"
             ],
             "defines": [
