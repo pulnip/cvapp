@@ -47,7 +47,7 @@ class NativeControl {
         dartImg: image,
       );
 
-      NativeProcess.convertToGrayscale(inputData, outputData, width, height);
+      NativeProcess.nativeEntry(inputData, outputData, width, height);
 
       final grayImage = img.Image(width: width, height: height);
       grayptrToImg(grayPtr: outputData, dartImg: grayImage);

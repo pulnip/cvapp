@@ -1,0 +1,59 @@
+{
+    "version": 6,
+    "configurePresets": [
+        {
+            "name": "x64",
+            "hidden": true,
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "toolset": {
+                "value": "host=x64",
+                "strategy": "external"
+            }
+        },
+        {
+            "name": "Ninja",
+            "hidden": true,
+            "generator": "Ninja Multi-Config",
+            "cacheVariables": {
+                "CMAKE_MAKE_PROGRAM": "ninja"
+            }
+        },
+        {
+            "name": "x64-base",
+            "hidden": true,
+            "inherits": [
+                "x64",
+                "Ninja"
+            ],
+            "binaryDir": "${sourceDir}/cppbuild"
+        },
+        {
+            "name": "Clang",
+            "inherits": "x64-base",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "Clang-Debug",
+            "configurePreset": "Clang",
+            "configuration": "Debug"
+        },
+        {
+            "name": "Clang-RelWithDebInfo",
+            "configurePreset": "Clang",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "Clang-Release",
+            "configurePreset": "Clang",
+            "configuration": "Release"
+        }
+  ]
+}

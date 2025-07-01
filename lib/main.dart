@@ -36,7 +36,7 @@ class _ImageComparisonPageState extends State<ImageComparisonPage> {
   Uint8List? _imageBytes;
 
   Future<void> _toggleImage() async {
-    ByteData data = await rootBundle.load("assets/Lenna.png");
+    ByteData data = await rootBundle.load("assets/frame.jpg");
     Uint8List bytes = data.buffer.asUint8List();
     img.Image? image = img.decodeImage(bytes);
     image!;
@@ -51,7 +51,7 @@ class _ImageComparisonPageState extends State<ImageComparisonPage> {
   }
 
   Future<void> _loadImage() async {
-    ByteData data = await rootBundle.load('assets/Lenna.png');
+    ByteData data = await rootBundle.load('assets/frame.jpg');
     Uint8List bytes = data.buffer.asUint8List();
 
     // img.Image -> Uint8List

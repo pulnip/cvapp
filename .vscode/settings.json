@@ -7,9 +7,6 @@
         "build": true,
         "cvapp.iml": true,
         "pubspec.lock": true,
-        "src/opencv":true,
-    },
-    "files.associations": {
-        "iostream": "cpp"
+        "src/opencv": true,
     }
 }

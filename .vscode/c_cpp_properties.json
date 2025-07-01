@@ -3,11 +3,12 @@
         {
             "name": "macOS",
             "includePath": [
-                "${workspaceFolder}/src/opencv/sdk/native/jni/include",
-                "${env:ANDROID_NDK_INCLUDE_DIR}"
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/src/opencv/sdk/native/jni/include"
             ],
             "defines": [
-                "_DEBUG"
+                "_DEBUG",
+                "NO_ANDROID"
             ],
             "cStandard": "c17",
             "cppStandard": "c++17",
