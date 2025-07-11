@@ -29,3 +29,6 @@ cv::Mat extractLargestBlob(const cv::Mat& mask);
 float maskRectangularity(cv::Mat mask);
 Quad toQuad(const std::vector<cv::Point2f>& points);
 float quadSize(const Quad& quad);
+
+// return seperator indexes.
+cv::Mat assumePageSeperator(const cv::Mat& rectangularities);

@@ -1,5 +1,7 @@
 #include <algorithm>
 #include <vector>
+#include <functional>
+#include <numeric>
 #include <opencv2/opencv.hpp>
 #include "tools.hpp"
 #include "docscan.hpp"
@@ -265,4 +267,76 @@ float quadSize(const Quad& quad){
     auto tlSize = triangleSize(quad.tl, quad.bl, quad.tr);
     auto brSize = triangleSize(quad.br, quad.tr, quad.bl);
     return tlSize + brSize;
+}
+
+
+
+
+
+
+float half_average(const cv::Mat& indices) {
+    CV_Assert(indices.rows == 1 || indices.cols == 1);
+    int start = indices.at<int>(0);
+    int end = indices.at<int>(indices.total() - 1);
+    float average_dist = static_cast<float>(start + end) / (indices.total() - 1);
+    return average_dist / 2.0f;
+}
+
+float three_sigma(const cv::Mat& indices) {
+    CV_Assert(indices.rows == 1 || indices.cols == 1);
+    std::vector<float> diffs;
+    for (int i = 1; i < indices.total(); ++i)
+        diffs.push_back(static_cast<float>(indices.at<int>(i)) - indices.at<int>(i - 1));
+    float mu = std::accumulate(diffs.begin(), diffs.end(), 0.0f) / diffs.size();
+    float sigma = 0.0f;
+    for (float v : diffs) sigma += (v - mu) * (v - mu);
+    sigma = std::sqrt(sigma / diffs.size());
+    return mu - 3.0f * sigma;
+}
+
+cv::Mat filter_seperator_distance(
+    const cv::Mat& _seperators, // int
+    const cv::Mat& features, // float
+    std::function<float(const cv::Mat&)> policy = half_average
+){
+    CV_Assert(_seperators.total() > 0);
+    cv::Mat seperators = _seperators.clone();
+    while(true){
+        if(seperators.total() == 1)
+            break;
+        float too_short = policy(seperators);
+
+        std::vector<int> merged = {seperators.at<int>(0)};
+        for(int i = 1; i < seperators.total(); ++i) {
+            int idx = seperators.at<int>(i);
+            int last = merged.back();
+            float dist = static_cast<float>(idx - last);
+            if(dist < too_short){
+                if(features.at<float>(idx) > features.at<float>(last))
+                    merged.back() = idx;
+            }
+            else{
+                merged.push_back(idx);
+            }
+        }
+        if(merged.size() == seperators.total())
+            break;
+        seperators = cv::Mat(merged).reshape(1, 1);
+    }
+    return seperators;
+}
+
+Mat assumePageSeperator(const Mat& rectangularities){
+    assert(rectangularities.dims==2 && rectangularities.cols==1);
+    Mat smoothed;
+    GaussianBlur(rectangularities, smoothed, Size(1, 7),
+        0, 0, BorderTypes::BORDER_REPLICATE);
+
+    cv::Mat valley = (cv::Mat_<float>(1, 7) <<
+        3, 2, 1, -12, 1, 2, 3);
+    cv::Mat features;
+    cv::filter2D(smoothed, features, -1, valley);
+    cv::max(features, 0, features);  // like ReLU
+
+
 }
