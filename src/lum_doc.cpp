@@ -9,7 +9,7 @@
 using namespace std;
 using namespace cv;
 
-int lum_doc(const Mat& src, Mat& dst) {
+int lum_doc_impl(const Mat& src, Mat& dst) {
     auto roi = lum_roi(src);
     auto rectangularity = maskRectangularity(roi);
     dst = roi;

@@ -1,8 +1,8 @@
+import 'package:cvapp/bridge/bridge.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
-import 'package:cvapp/native/native_control.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,7 +29,8 @@ class ImageComparisonPage extends StatefulWidget {
 
 img.Image _convertGray(Map<String, dynamic> params) {
   img.Image image = params["image"];
-  return NativeControl.convertGray(image: image);
+  return Bridge.lumDoc(image);
+  // return NativeControl.convertGray(image: image);
 }
 
 class _ImageComparisonPageState extends State<ImageComparisonPage> {

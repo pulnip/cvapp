@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <opencv2/opencv.hpp>
 
-int lum_doc(const cv::Mat& src, cv::Mat& dst);
+int lum_doc_impl(const cv::Mat& src, cv::Mat& dst);
 
 struct InitialMask{
     cv::Mat L, a, b;
